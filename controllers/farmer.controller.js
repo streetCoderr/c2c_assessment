@@ -16,11 +16,11 @@ const insertFarmer = async (req, res, next) => {
 
 const getFarmers = async (req, res, next) => {
   try {
-    const { fields, match } = req.query;
-    const result = await farmerService.getFarmers({
-      fields, match
+    const { fields, filters } = req.query;
+    const farmers = await farmerService.getFarmers({
+      fields, filters
     });
-    res.send(result)
+    res.status(200).json({farmers, message: "Successfully retrieved"});
   } catch (error) {
     next(error);
   }

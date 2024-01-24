@@ -15,13 +15,13 @@ const insertFarmer = async ({ first_name, last_name, phone_number, age, address,
   }
 }
 
-const getFarmers = async ({ fields, match }) => {
+const getFarmers = async ({ fields, filters }) => {
   try {
     if (fields && !fields.split(",").every(field => db_fields.includes(field))) 
       throw new BadRequestError("Please ensure that all provided fields are valid and properly comma delimited")
-    let fieldsMatched = match?.split(",");
-    if (match && !fieldsMatched?.every(field => db_fields.includes(field.split(":")[0]))) 
-      throw new BadRequestError("Please ensure that all provided fields in the match query parameter are valid")
+    let fieldsMatched = filters?.split(",");
+    if (filters && !fieldsMatched?.every(field => db_fields.includes(field.split(":")[0]))) 
+      throw new BadRequestError("Please ensure that all provided fields in the filter query parameter are valid")
 
     let count = 1;
     let parameters = [];
@@ -39,7 +39,7 @@ const getFarmers = async ({ fields, match }) => {
         } else if (value.length == 1) {
           query += `age = $${count++}`
           parameters.push(Number(value[0]))
-        } else throw new BadRequestError("Please specify the matching age properly")
+        } else throw new BadRequestError("Please specify the age to match properly")
       } else if (field == "crops") {
         value = value.split("-");
         if (value.length == 0) return
@@ -57,7 +57,7 @@ const getFarmers = async ({ fields, match }) => {
     });
 
     const res = await farmerDB.get({ fields: fields || "*", 
-      match: matchQuery.length == 0 ? "" : ` WHERE ${matchQuery.join(" AND ")}`,
+      filters: matchQuery.length == 0 ? "" : ` WHERE ${matchQuery.join(" AND ")}`,
       parameters 
     });
     return res;

@@ -19,11 +19,11 @@ const insert = async ({ first_name, last_name, phone_number, age, address, crops
   }
 }
 
-const get = async ({ fields, match, parameters}) => {
+const get = async ({ fields, filters, parameters}) => {
   try {
-    let query = `SELECT ${fields} FROM farmer ${match}`;
+    let query = `SELECT ${fields} FROM farmer ${filters}`;
     const res = await pool.query(query, parameters);
-    return res
+    return res.rows
   } catch (err) {
     throw err
   }
