@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS farmer (
   crops text[]
 );
 
-INSERT INTO farmer (first_name, last_name, phone_number, age, address, crops)
-VALUES ('Jimoh', 'Fasaasi', '12345', 23, '13, idumota', '{"yam", "cassava", "maize"}'),
-('Sule', 'Gambari', '667755', 44, '3, idi ape', '{"maize"}'),
-('Jimoh', 'Mike', '566558', 31, 'Lagos', '{"cassava", "orange"}');
+-- INSERT INTO farmer (first_name, last_name, phone_number, age, address, crops)
+-- VALUES ('Jimoh', 'Fasaasi', '12345', 23, '13, idumota', '{"yam", "cassava", "maize"}'),
+-- ('Sule', 'Gambari', '667755', 44, '3, idi ape', '{"maize"}'),
+-- ('Jimoh', 'Mike', '566558', 31, 'Lagos', '{"cassava", "orange"}');
 
