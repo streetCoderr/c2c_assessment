@@ -14,5 +14,5 @@ app.get("/", (req, res) => {
 app.use("/api/v1/farmer", farmerRouter);
 app.use(errorHandler);
 app.listen(PORT, () => {
-  console.log(`server is running at port http://localhost:${PORT}`);
+  console.log(`server is running on http://localhost:${PORT}`);
 })
