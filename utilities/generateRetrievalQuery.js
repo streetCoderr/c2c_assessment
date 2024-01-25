@@ -13,13 +13,13 @@ const generateRetrievalQueryParams = ({fields, filters}) => {
     if (!field || !value) return
     if (field == "age") {
       value = value.split("-");
-      if (value.length > 1) {
+      if (value.length == 2) {
         if (isNaN(Number(value[0])) || isNaN(Number(value[1]))) throw new BadRequestError("Please insert a valid age range")
-        query += `age BETWEEN $${count++} AND $${count++}`
+        query = `age BETWEEN $${count++} AND $${count++}`
         parameters.push(Number(value[0]), Number(value[1]))
       } else if (value.length == 1) {
         if (isNaN(Number(value[0]))) throw new BadRequestError("Please insert a valid age")
-        query += `age = $${count++}`
+        query = `age = $${count++}`
         parameters.push(Number(value[0]))
       } else throw new BadRequestError("Please specify the age to match properly")
     } else if (field == "crops") {
@@ -27,10 +27,10 @@ const generateRetrievalQueryParams = ({fields, filters}) => {
       if (value.length == 0) return
       let cropArr = [];
       value.forEach(crop => cropArr.push(crop));
-      query += `crops && $${count++}`
+      query = `crops && $${count++}`
       parameters.push(cropArr);
     } else if (field != "address") {
-      query += `${field} = $${count++}`
+      query = `${field} = $${count++}`
       parameters.push(value);
     }
   
