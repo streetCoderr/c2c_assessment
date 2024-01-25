@@ -1,4 +1,15 @@
+const { ZodError } = require("zod")
+
 const errorHandler = (err, req, res, next) => {
-  res.status(err.statusCode ?? 500).json({errorMessage: err.message})
+  let errMsg
+  if (err instanceof ZodError) {
+    let errMsgCons = [];
+    err.issues.forEach(issue => {
+      errMsgCons.push(issue.message)
+    });
+    errMsg = errMsgCons.join(" : ");
+    err.statusCode = 400;
+  }
+  res.status(err.statusCode ?? 500).json({errorMessage: errMsg || err.message})
 }
 module.exports = errorHandler

@@ -14,7 +14,6 @@ const insert = async ({ first_name, last_name, phone_number, age, address, crops
     VALUES ($1, $2, $3, $4, $5, $6)', [first_name, last_name, phone_number, age, address, crops]);
     return res
   } catch (err) {
-    console.log(err);
     throw err;
   }
 }
