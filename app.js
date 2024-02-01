@@ -17,7 +17,7 @@ app.use("/api/v1/farmer", farmerRouter);
 app.use(errorHandler);
 app.listen(PORT, async () => {
   try {
-    await farmerDB.connect();
+    await farmerDB.setUp();
     console.log(`server is running on http://localhost:${PORT}`);
   } catch (error) {
     console.log(error)

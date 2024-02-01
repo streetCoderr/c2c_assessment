@@ -14,10 +14,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-pool.on("error", (err, client) => {
-  throw new ServerError(err.message)
-})
-
 const insert = async ({ first_name, last_name, phone_number, age, address, crops }) => {
   try {
     const res = await pool.query('INSERT INTO farmer (first_name, last_name, phone_number, age, address, crops) \
@@ -39,12 +35,24 @@ const get = async ({ fields, filters, parameters}) => {
   }
 }
 
-const connect = async () => {
-  await pool.query('SELECT NOW()')
+const setUp = async () => {
+  try {
+    await pool.query("CREATE TABLE IF NOT EXISTS farmer ( \
+      id SERIAL PRIMARY KEY, \
+      first_name VARCHAR(50), \
+      last_name VARCHAR(50), \
+      phone_number VARCHAR(11), \
+      age INTEGER, \
+      address VARCHAR(150), \
+      crops text[] \
+    )");
+  } catch (error) {
+    throw error;
+  }
 }
 
 export default {
-  connect,
+  setUp,
   insert,
   get
 }
