@@ -1,4 +1,3 @@
-const { ServerError } = require('../utilities/error');
 
 const Pool = require('pg').Pool;
 const pool = new Pool({
@@ -28,7 +27,7 @@ const get = async ({ fields, filters, parameters}) => {
   }
 }
 
-module.exports = {
+export {
   insert,
   get
 }

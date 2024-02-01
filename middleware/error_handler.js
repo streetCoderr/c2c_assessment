@@ -1,6 +1,6 @@
-const { ZodError } = require("zod")
+import { ZodError } from "zod";
 
-const errorHandler = (err, req, res, next) => {
+export default function errorHandler (err, req, res, next) {
   let errMsg
   if (err instanceof ZodError) {
     let errMsgCons = [];
@@ -12,4 +12,3 @@ const errorHandler = (err, req, res, next) => {
   }
   res.status(err.statusCode ?? 500).json({errorMessage: errMsg || err.message})
 }
-module.exports = errorHandler

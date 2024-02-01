@@ -1,6 +1,6 @@
-const farmerDB = require("../data-access/farmer.data_access");
-const generateRetrievalQueryParams = require("../utilities/generateRetrievalQuery");
-const { validateFarmer, validatePathQuery }= require("../utilities/validator");
+import farmerDB from "../data-access/farmer.data_access.js";
+import generateRetrievalQueryParams from "../utilities/generateRetrievalQuery.js";
+import { validateFarmer, validatePathQuery } from "../utilities/validator.js";
 
 
 const insertFarmer = async (farmer) => {
@@ -22,7 +22,7 @@ const getFarmers = async ({ fields, filters }) => {
   }
 }
 
-module.exports = {
+export {
   insertFarmer,
   getFarmers
 }

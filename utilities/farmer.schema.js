@@ -1,6 +1,6 @@
-const zod = require("zod");
+import zod from "zod";
 
-const Farmer = zod.object({
+export default zod.object({
   first_name: zod.string({
     required_error: "Please provide your first name",
     invalid_type_error: "Your first name should only contain letters of the alphabet",
@@ -26,5 +26,3 @@ const Farmer = zod.object({
     invalid_type_error: "Seems like you did not properly provide an array of your crops",
   })
 }).required()
-
-module.exports = Farmer;

@@ -13,7 +13,7 @@ class ServerError extends Error {
   }
 }
 
-module.exports = {
+export {
   BadRequestError,
   ServerError
 }

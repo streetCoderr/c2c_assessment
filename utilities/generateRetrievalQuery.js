@@ -1,11 +1,11 @@
-const { BadRequestError } = require("../utilities/error");
+import { BadRequestError } from "../utilities/error.js";
 
-const generateRetrievalQueryParams = ({fields, filters}) => {
+export default ({fields, filters}) => {
   
   
   let count = 1;
   let parameters = [];
-  let matchQuery = [];
+  let filtersArray = [];
   
   filters?.split(",")?.forEach(element => {
     let query = "";
@@ -34,14 +34,13 @@ const generateRetrievalQueryParams = ({fields, filters}) => {
       parameters.push(value);
     }
   
-    if (query !== "") matchQuery.push(query);
+    if (query !== "") filtersArray.push(query);
   
   });
 
   return { fields: fields || "*", 
-    filters: matchQuery.length == 0 ? "" : ` WHERE ${matchQuery.join(" AND ")}`,
+    filters: filtersArray.length == 0 ? "" : ` WHERE ${filtersArray.join(" AND ")}`,
     parameters
   }
 }
 
-module.exports = generateRetrievalQueryParams;

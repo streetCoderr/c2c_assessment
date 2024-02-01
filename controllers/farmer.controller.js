@@ -1,4 +1,4 @@
-const farmerService = require("../services/farmer.service");
+import farmerService from "../services/farmer.service.js";
 
 const insertFarmer = async (req, res, next) => {
   try {
@@ -19,7 +19,7 @@ const getFarmers = async (req, res, next) => {
   }
 }
 
-module.exports = {
+export  {
   insertFarmer,
   getFarmers
 }
