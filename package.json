@@ -4,7 +4,8 @@
   "description": "solution for c2c software engineer assessment",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "mocha ./**/*.test.js",
     "initDB": "psql -f init.sql",
     "resetDB": "psql -f rollback.sql"
