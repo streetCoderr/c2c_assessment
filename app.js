@@ -1,8 +1,10 @@
-require("dotenv").config();
+import dotenv from "dotenv";
 
-const express = require("express");
-const farmerRouter = require("./routes/farmer.route");
-const errorHandler = require("./middleware/error_handler");
+import express from "express";
+import farmerRouter from "./routes/farmer.route.js";
+import errorHandler from "./middleware/error_handler.js";
+import farmerDB from "./data-access/farmer.data_access.js";
+dotenv.config()
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -13,6 +15,11 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/farmer", farmerRouter);
 app.use(errorHandler);
-app.listen(PORT, () => {
-  console.log(`server is running on http://localhost:${PORT}`);
+app.listen(PORT, async () => {
+  try {
+    await farmerDB.connect();
+    console.log(`server is running on http://localhost:${PORT}`);
+  } catch (error) {
+    console.log(error)
+  }
 })

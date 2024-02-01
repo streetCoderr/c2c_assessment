@@ -22,7 +22,7 @@ const getFarmers = async ({ fields, filters }) => {
   }
 }
 
-export {
+export default {
   insertFarmer,
   getFarmers
 }

@@ -1,11 +1,22 @@
+import pg from 'pg';
+import { ServerError } from '../utilities/error.js';
+const { Pool } = pg;
 
-const Pool = require('pg').Pool;
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-});
+let pool;
+if (process.env.NODE_ENV === "production") {
+  pool = new Pool({
+    connectionString: process.env.DB_PROD_CONN_STRING
+  })
+} else {
+  pool = new Pool({
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+  });
+}
 
-
+pool.on("error", (err, client) => {
+  throw new ServerError(err.message)
+})
 
 const insert = async ({ first_name, last_name, phone_number, age, address, crops }) => {
   try {
@@ -21,13 +32,19 @@ const get = async ({ fields, filters, parameters}) => {
   try {
     let query = `SELECT ${fields} FROM farmer ${filters}`;
     const res = await pool.query(query, parameters);
+    console.log(res.rows)
     return res.rows
   } catch (err) {
     throw err
   }
 }
 
-export {
+const connect = async () => {
+  await pool.query('SELECT NOW()')
+}
+
+export default {
+  connect,
   insert,
   get
 }

@@ -1,7 +1,7 @@
 
-CREATE DATABASE c2c_db;
+--CREATE DATABASE c2c_db;
 
-\c c2c_db;
+--\c c2c_db;
 
 CREATE TABLE IF NOT EXISTS farmer (
   id SERIAL PRIMARY KEY,
