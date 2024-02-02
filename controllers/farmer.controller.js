@@ -13,7 +13,8 @@ const insertFarmer = async (req, res, next) => {
 const getFarmers = async (req, res, next) => {
   try {
     const farmers = await farmerService.getFarmers(req.query);
-    res.status(200).json({farmers, message: "Successfully retrieved"});
+    const found = farmers?.length > 0;
+    res.status(found ? 200 : 404).json({farmers, message: found ? "Records retrieved successfully" : "No record found"});
   } catch (error) {
     next(error);
   }

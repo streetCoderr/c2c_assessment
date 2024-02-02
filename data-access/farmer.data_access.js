@@ -28,7 +28,6 @@ const get = async ({ fields, filters, parameters}) => {
   try {
     let query = `SELECT ${fields} FROM farmer ${filters}`;
     const res = await pool.query(query, parameters);
-    console.log(res.rows)
     return res.rows
   } catch (err) {
     throw err

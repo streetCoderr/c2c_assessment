@@ -1,0 +1,117 @@
+openapi: 3.0.0
+info:
+  title:  C2C's assessment API
+  description: An API theat implements c2c assessment's specification
+  contact: {}
+  version: '1.0'
+servers:
+- url: https://crop2cash-assessment.onrender.com/api/v1
+  description: Development Server
+- url: http://localhost:3000/api/v1
+  description: Local Server
+paths:
+  /farmer:
+    post:
+      tags:
+      - farmer
+      summary: Create Farmer
+      description: Inserts a new farmer into our database
+      operationId: insertFarmer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/FarmerInput'
+      responses:
+        '201': 
+          description: "Farmer created successfully"
+        '400':
+          description: "Bad Client Request"
+        '500': 
+          description: "Server Error"
+    get:
+      tags:
+      - farmer
+      summary: Retrieve farmer(s)
+      description: Retrieves needed information of farmers based on provided fields and filtering criteria
+      operationId: getFarmers
+      parameters:
+        - name: fields
+          in: query
+          description: This contains fields that we want to retrieve from our database. If the fields are more than 1, they are comma delimited. The endpoint retrieves all fields if the fields query parameter is not provided.
+          required: false
+          schema:
+            type: string
+        - name: filters
+          in: query
+          description: |
+            &ensp;&ensp;&ensp;&ensp;This contains the filter parameters with which we want to retrieve records from our database.<br>
+            &ensp;&ensp;&ensp;&ensp;This endpoint performs no filter if the filters query parameter is not provided<br>
+            &ensp;&ensp;&ensp;&ensp;The way we specify filter attributes varies accross different fields. This is shown below<br><br>
+            &ensp;&ensp;&ensp;&ensp;**age**:<br>
+            &ensp;&ensp;&ensp;&ensp;&ensp;You can filter the records by specifying the exact age you want to match or the age range<br>
+            &ensp;&ensp;&ensp;&ensp;&ensp;For exact age match, we specify it this way: `filters=age:30`<br>
+            &ensp;&ensp;&ensp;&ensp;&ensp;For range age match, we specify it this way: `filters=age:20-30`<br><br>
+            &ensp;&ensp;&ensp;&ensp;**crops**:<br>
+            &ensp;&ensp;&ensp;&ensp;&ensp;You can filter the records by specifying at least one crop that you want to narrow you search to.<br>
+            &ensp;&ensp;&ensp;&ensp;&ensp;This retrieves all the farmers that has any of the provided crops.<br>
+            &ensp;&ensp;&ensp;&ensp;&ensp;If the number of crops is more than 1, they are hyphen (-) delimited.<br>
+            &ensp;&ensp;&ensp;&ensp;&ensp;It could be used this way: `filters=crops:yam or filters=crops:yam-maize-cassava`<br><br>
+            &ensp;&ensp;&ensp;&ensp;**other fields (apart from address)**:<br>
+            &ensp;&ensp;&ensp;&ensp;&ensp;You can filter the records by specifying the value that you want to match on the given field.<br>
+            &ensp;&ensp;&ensp;&ensp;&ensp;For instance, to get all records where the first name of the farmer is Jimoh, we specify it this way:<br>
+            &ensp;&ensp;&ensp;&ensp;&ensp;`filters=first_name:Jimoh`<br>
+            &ensp;&ensp;&ensp;&ensp;&ensp;The above applies to other fields apart from `address`. No filtering on `address`<br><br>
+            &ensp;&ensp;&ensp;Note that if we wish to specify more than 1 filter parameter, they should be comma delimited.<br>
+            &ensp;&ensp;&ensp;For example, if you want to get all farmers that meets the following filtering criteria:<br>
+            &ensp;&ensp;&ensp;&ensp;1. age within the range of 20 and 30<br>
+            &ensp;&ensp;&ensp;&ensp;2. first name as Jimoh<br>
+            &ensp;&ensp;&ensp;&ensp;3. plants at least one of yam or maize<br>
+            &ensp;&ensp;&ensp;You should specify it as follows<br>
+          required: false
+          schema:
+            type: string
+      responses:
+        '200': 
+          description: "Records retrieved successfully"
+        '400':
+          description: "Bad Client Request"
+        '404':
+          description: "No record found"
+        '500': 
+          description: "Server Error"
+components:
+  schemas:
+    FarmerInput:
+      title: FarmerInput
+      required:
+      - first_name
+      - last_name
+      - phone_number
+      - age
+      - address
+      - crops
+      properties:
+        first_name:
+          type: string
+          example: Jimoh
+        last_name:
+          type: string
+          example: Mike
+        phone_number:
+          type: string
+          example: 566558
+        age:
+          type: integer
+          example: 31
+        address:
+          type: string
+          example: Lagos
+        crops:
+          type: array
+          items: 
+            type: string
+          example: [cassava, orange]
+security: []
+tags:
+- name: farmer
