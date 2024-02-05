@@ -7,7 +7,9 @@ This repo contains my solution for C2C software engineer assessment
 * Have postgresql installed
 
 ### SETUP
-* Ceate your env file based on the .env.sample file provided. Don't change anything (apart from maybe the PORT variable). Just copy and paste into your env file
-* Open a tab on your terminal and start your postgresql service
-* Open another tab and enter the command `npm run initDB`. This initialises and sets up the database schema
+* Open your terminal and start postgres.
+* Create a new DB (Or you could use an existing one)
+* Ceate your env file based on the .env.sample file provided (edit based on your DB parameters).
 * Now, run `npm start`. You can now access the app on the port number you specified.
+* The live server can be accessed [here](https://crop2cash-assessment.onrender.com)
+* You can also head straight to the documentation [here](https://crop2cash-assessment.onrender.com/api-docs)
