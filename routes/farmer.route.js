@@ -1,5 +1,5 @@
 import express from "express";
-import { insertFarmer, getFarmers } from "../controllers/farmer.controller.js";
+import FarmerController from "../controllers/farmer.controller.js";
 const router = express.Router();
-router.route("/").post(insertFarmer).get(getFarmers);
+router.route("/").post(FarmerController.insertFarmer).get(FarmerController.getFarmers);
 export default router

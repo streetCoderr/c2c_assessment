@@ -13,7 +13,7 @@ const validatePathQuery = ({fields, filters}) => {
     throw new BadRequestError("Please ensure that all provided fields in the filter query parameter are valid and in the right format")
 }
 
-export {
+export default {
   validateFarmer,
   validatePathQuery
 }

@@ -1,6 +1,6 @@
 import { BadRequestError } from "../utilities/error.js";
 
-export default ({fields, filters}) => {
+export default function generateRetrievalQueryParams ({fields, filters}) {
   
   
   let count = 1;

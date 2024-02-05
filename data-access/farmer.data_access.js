@@ -1,5 +1,4 @@
 import pg from 'pg';
-import { ServerError } from '../utilities/error.js';
 const { Pool } = pg;
 
 let pool;

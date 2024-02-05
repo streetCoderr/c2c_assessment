@@ -1,9 +1,8 @@
 import { expect } from "chai";
-import { describe } from "mocha";
 import generateRetrievalQueryParams from "./generateRetrievalQuery.js"
 import { BadRequestError } from "./error.js";
 import Sinon from "sinon";
-import { validateFarmer, validatePathQuery } from "./validator.js";
+import validator from "./validator.js";
 import { ZodError } from "zod";
 
 describe("Utilites", function () {
@@ -111,16 +110,9 @@ describe("Utilites", function () {
 
 
   describe("#validateFarmer", function () {
-    const obj = {
-      first_name: "Jimoh",
-      last_name: "Mike",
-      phone_number: "081223145526",
-      age: 31,
-      address: "Lagos",
-      crops: ["cassava", "orange"]
-    }
+
     it("should throw a ZodError if the object provided is empty", function () {
-      expect(() => validateFarmer({})).to.throw(ZodError)
+      expect(() => validator.validateFarmer({})).to.throw(ZodError)
     })
 
     it("should throw a ZodError if a rquired field is not provided in the object argument", function () {
@@ -131,7 +123,7 @@ describe("Utilites", function () {
         address: "Lagos",
         crops: ["cassava", "orange"]
       }
-      expect(() => validateFarmer(obj)).to.throw(ZodError)
+      expect(() => validator.validateFarmer(obj)).to.throw(ZodError)
     })
 
     it("should throw a ZodError if the age field is neither an integer or convertible to one", function () {
@@ -143,7 +135,7 @@ describe("Utilites", function () {
         address: "Lagos",
         crops: ["cassava", "orange"]
       }
-      expect(() => validateFarmer(obj)).to.throw(ZodError)
+      expect(() => validator.validateFarmer(obj)).to.throw(ZodError)
     })
 
     it("should throw a ZodError if the crops field is not strictly an array of strings", function () {
@@ -155,7 +147,7 @@ describe("Utilites", function () {
         address: "Lagos",
         crops: ["cassava", 10]
       }
-      expect(() => validateFarmer(obj)).to.throw(ZodError)
+      expect(() => validator.validateFarmer(obj)).to.throw(ZodError)
     })
 
 
@@ -168,7 +160,7 @@ describe("Utilites", function () {
         address: "Lagos",
         crops: ["cassava", "orange"]
       }
-      const res = validateFarmer(obj)
+      const res = validator.validateFarmer(obj)
       obj.age = Number(obj.age);
       expect(res).to.deep.equal(obj)
     })
@@ -178,7 +170,7 @@ describe("Utilites", function () {
   describe("#validatePathQuery", function () {
 
     it("should not throw error if the object argument is empty", function () {
-      expect(() => validatePathQuery({})).to.not.throw(BadRequestError)
+      expect(() => validator.validatePathQuery({})).to.not.throw(BadRequestError)
     })
 
     it("should not throw error if the fields property of the argument contains only valid Farmer attributes", function () {
@@ -186,7 +178,7 @@ describe("Utilites", function () {
         fields:"id,age,crops",
         filters:"age:20-30,first_name:Jimoh,id:1"
       }
-      expect(() => validatePathQuery(obj)).to.not.throw(BadRequestError)
+      expect(() => validator.validatePathQuery(obj)).to.not.throw(BadRequestError)
     })
 
     it("should throw error if the fields property of the argument contains invalid Farmer attributes", function () {
@@ -194,7 +186,7 @@ describe("Utilites", function () {
         fields:"id,age,crops,email",
         filters:"age:20-30,first_name:Jimoh,id:1"
       }
-      expect(() => validatePathQuery(obj)).to.throw(BadRequestError, 
+      expect(() => validator.validatePathQuery(obj)).to.throw(BadRequestError, 
         "Please ensure that all provided fields are valid and properly comma delimited")
     })
 
@@ -203,7 +195,7 @@ describe("Utilites", function () {
         fields:"id,age,crops",
         filters:"age:20-30:first_name,Jimoh,id:1"
       }
-      expect(() => validatePathQuery(obj)).to.throw(BadRequestError, 
+      expect(() => validator.validatePathQuery(obj)).to.throw(BadRequestError, 
         "Please ensure that all provided fields in the filter query parameter are valid and in the right format")
     })
 
